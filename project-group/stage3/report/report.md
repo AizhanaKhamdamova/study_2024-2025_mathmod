@@ -88,13 +88,13 @@ header-includes:
 
 - Построить модель агрегации, ограниченной диффузией
 - Найти размерность, получившихся кластеров
-- Построить график зависимости числа частиц в кластере от радиуса агирации
+- Построить график зависимости числа частиц в кластере от радиуса гирации
 
 ## Объект и предмет исследования
 
 - Модель DLA, BA, CLA, CCA
 - Фрактальная размерность
-- График зависимости числа частиц в кластере от радиуса агирации
+- График зависимости числа частиц в кластере от радиуса гирации
 
 ## Материалы и методы
 
@@ -481,57 +481,7 @@ end
 <div>
 ## CCA (Cluster-Cluster Aggregation)
 
-**Основные этапы алгоритма:**
-1. Инициализация кластеров со случайными позициями
-2. Движение кластеров с постоянной скоростью
-3. Объединение при сближении (дистанция < 3.0)
-4. Визуализация с цветовой дифференциацией
 
-**Особенности реализации:**
-- Динамическое обновление позиций (`mod()` для границ)
-- Рекурсивное объединение кластеров
-- Автоматическая цветовая палитра (Rainbow)
-- Оптимизированная обработка коллизий
-
-</div>
-
-<div class="code-column">
-```julia
-mutable struct ClusterCCA
-    particles::Vector{Tuple{Int,Int}}
-    position::Tuple{Float64,Float64}
-    velocity::Tuple{Float64,Float64}
-end
-
-struct CCA
-    size::Int
-    clusters::Vector{ClusterCCA}
-end
-
-function CCA(size=100, n=20)
-    clusters = [ClusterCCA([(rand(1:size), rand(1:size))], 
-        (rand(1:size), rand(1:size)), (randn(), randn())) 
-        for _ in 1:n]
-    CCA(size, clusters)
-end
-
-function simulate!(cca, steps=100)
-    for _ in 1:steps
-        for c in cca.clusters
-            x,y = c.position .+ c.velocity
-            c.position = (mod(x, cca.size), mod(y, cca.size))
-        end
-        merge_clusters!(cca)
-    end
-end
-
-# Объединение кластеров
-function merge_clusters!(cca)
-    merged = Set{Int}()
-    new_clusters = ClusterCCA[]
-    # ... (логика объединения)
-    cca.clusters = new_clusters
-end
 
 
 # Выводы
